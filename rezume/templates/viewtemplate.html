@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% load static %}
+    <title>Resume</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+
+    <style>
+        :root {
+            --dark-green: #9cc675;
+            --dark-yellow: #e89a3d;
+            --extra-light-brown: #fdf0d7;
+            --light-brown: #ecd5ab;
+            --dark-brown: #915b40;
+            --light-yellow: #f8e3a8;
+            --light-red: #f3ac99;
+            --light-teal: #a6c8cc;
+            --light-gray: #ddd5d6;
+            --theme-color: #e89a3d;
+        }
+        body {
+            font-family: 'Lato', sans-serif !important;
+            -webkit-print-color-adjust: exact;
+        }
+        .short a:hover {
+            color: var(--theme-color);
+        }
+        .resmue-container {
+            border: 1px solid #ddd;
+            width: 1000px;
+            margin: 100px auto;
+            padding: 0;
+            padding: 15px;
+            position: relative;
+        }
+        aside, main {
+            padding: 15px;
+            border-radius: 10px;
+        }
+        .resmue-container aside {
+            background: #f1f1f1;
+            width: 30%;
+        }
+        .resmue-container main {
+            flex-grow: 10;
+            background: #f1f1f1;
+            margin-left: 1%;
+            width: 61%; /* Adjusted width */
+        }
+        .profile-pic {
+            --size: 180px;
+            width: var(--size);
+            height: var(--size);
+            object-fit: cover;
+            border-radius: 50%;
+            margin: 20px auto;
+            display: block;
+            background: var(--light-brown);
+        }
+        .text-center {
+            text-align: center;
+        }
+        .text-muted {
+            color: #828282;
+        }
+        .line-title {
+            position: relative;
+            border-bottom: 1px solid #b9b9b9;
+            padding-bottom: 15px;
+        }
+        .line-title:before {
+            content: '';
+            width: 50px;
+            height: 2px;
+            background: var(--theme-color);
+            position: absolute;
+            bottom: -1px;
+        }
+        .line-title.center {
+            text-align: center;
+        }
+        .line-title.center:before {
+            text-align: center;
+            left: 0;
+            right: 0;
+            margin: auto;
+        }
+        .short {
+            text-align: right;
+            margin-right: 40px;
+            width: 50%;
+            float: left;
+        }
+        .short p {
+            color: #828282;
+            margin-top: -10px;
+            font-size: 14px;
+        }
+        .full a {
+            font-size: 22px;
+            font-weight: 300;
+            text-decoration: none;
+            margin-top: 20px;
+            display: block;
+            color: #525252;
+        }
+        .read {
+            color: #717171;
+            font-size: 16px;
+            line-height: 1.5;
+            word-spacing: 4px;
+            margin: 0; /* Adjusted margin to remove space */
+        }
+        .flex-group {
+            display: flex;
+            flex-direction: column;
+        }
+        .flex-group:after {
+            content: "";
+            display: table;
+            clear: both;
+        }
+        .flex-group .full {
+            width: 100%; /* Adjusted width to 100% */
+            margin-bottom: 15px; /* Added margin to separate sections */
+        }
+        section {
+            padding: 10px 0; /* Adjusted padding */
+        }
+        nav {
+            position: absolute;
+            top: -50px;
+            left: -20px;
+        }
+        nav a {
+            padding: 7px 10px;
+            display: inline-block;
+            text-decoration: none;
+            border: 1px solid #ddd;
+            margin-left: 22px;
+            border-radius: 3px;
+            color: #333;
+        }
+        .short a {
+            text-decoration: none;
+            font-size: 17px;
+            color: #333;
+        }
+        hr {
+            background-color: #ddd;
+            height: 1px;
+            border: 0;
+        }
+        @media print {
+            nav {
+                display: none !important;
+            }
+        }
+        .skill-list li {
+            list-style: square;
+            padding: 10px 0;
+            color: #636363;
+            font-size: 17px;
+        }
+        .edit-button-container {
+            position: absolute;
+            bottom: 20px;
+            right: 20px;
+           color: red;
+            border-radius: 5px;
+            padding: 10px 20px;
+
+        }
+        .edit-button-container a {
+
+            text-decoration: none;
+
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="resmue-container">
+        <form method="post" action="{% url 'update' values.id %}">
+            {% csrf_token %}
+            <div style="display: flex;">
+                <aside>
+                    <section class="text-center" style="padding:0">
+                        <img class="profile-pic">
+                        <h2 style="margin-bottom:5px">{{ values.fullname }}</h2>
+                        <p class="text-muted">
+                            <small>
+                            <b>Mob:</b> {{ values.phone }}</small>
+                        </p>
+                         <p class="text-muted">
+                            <small>
+                            <b>Address:</b> {{ values.address }}</small>
+                        </p>
+                        <p class="text-muted">
+                            <small>
+                            <b>Email:</b> {{ values.email }}
+                            </small>
+                        </p>
+                        <section>
+                            <h3 class="line-title center">About Me</h3>
+                            <p class="read">{{ values.aboutme }}</p>
+                        </section>
+                    </section>
+                    <section>
+                        <h3 class="line-title center">Skills</h3>
+                        <ul class="skill-list">
+                            <li>{{ values.skills }}</li>
+                        </ul>
+                    </section>
+                    <section>
+                        <h3 class="line-title center">Education</h3>
+                        <p class="read" style="text-align:center">
+                            {{ values.graduation }}
+                            <p style="text-align:center">{{ values.universityCollege }}</p>
+                            <p style="text-align:center">{{ values.DegreeCertification }}</p>
+                            <p style="text-align:center">{{ values.coursetitle }}</p>
+                        </p>
+                    </section>
+                </aside>
+                <main>
+                    <section>
+                        <h3 class="line-title">Objective</h3>
+                        <article class="flex-group">
+                            <div class="full">
+                                <p class="read">I want to execute my ideas through my designing skills for the benefit of my company. I have intuitive knowledge of designing which will help me to grow my career with my company.</p>
+                            </div>
+                        </article>
+                    </section>
+                    <section>
+                        <h3 class="line-title">Project Title<small class="text-muted"></small></h3>
+                        <article class="flex-group">
+                            <div class="full">
+                                <h4>Description about the project</h4>
+                                <p class="read">{{ values.projectdescription }}</p>
+                            </div>
+                        </article>
+                    </section>
+                    <section>
+                        <h3 class="line-title">Projects images</h3>
+                        <p class="read">{{ values.prjectimg }}
+                         <p>
+                        <img src="{% static 'images/detection2.jpg' %}" alt="C:\Users\veena\Downloads\detection2.jpg" style="width:500px">
+                        <img src="{{ values.prjectimg }}">
+                        <hr>
+                    </section>
+                    <section>
+                        <h3 class="line-title">Projects links</h3>
+                        <p class="read">{{ values.prjectlink }}
+                        <hr>
+                    </section>
+                </main>
+            </div>
+            <div class="edit-button-container">
+                <a href="{% url 'update' values.id %}" class="btn btn-success" style="background-color:#828282;width:100px;height:35px;">Edit</a>
+
+            </div>
+        </form>
+    </div>
+</body>
+</html>
